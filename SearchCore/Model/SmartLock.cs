@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SearchCore.Model
+﻿namespace SearchCore.Model
 {
     public enum LockType
     {
@@ -13,9 +7,52 @@ namespace SearchCore.Model
     }
     public class SmartLock : SearchableEntity
     {
+        private const int _nameWeight = 10;
+        private const int _typeWeight = 3;
+        private const int _snWeight = 8;
+        private const int _floorWeight = 6;
+        private const int _roomWeight = 6;
+        private const int _descriptionWeight = 6;
         internal override void CalculateWeight(string key)
         {
-            throw new NotImplementedException();
+            var weight = 0;
+
+            if (Type.ToString().Equals(key)) { weight += _typeWeight * 10; }
+            else if (Type.ToString().Contains(key)) { weight += _typeWeight; }
+
+            if (!string.IsNullOrEmpty(Name))
+            {
+                if (Name.Equals(key)) { weight += _nameWeight * 10; }
+                else if (Name.Contains(key)) { weight += _nameWeight; }
+            }
+
+            if (!string.IsNullOrEmpty(SerialNumber))
+            {
+                if (SerialNumber.Equals(key)) { weight += _snWeight * 10; }
+                else if (SerialNumber.Contains(key)) { weight += _snWeight; }
+            }
+
+            if (!string.IsNullOrEmpty(Floor))
+            {
+                if (Floor.Equals(key)) { weight += _floorWeight * 10; }
+                else if (Floor.Contains(key)) { weight += _floorWeight; }
+            }
+
+            if (!string.IsNullOrEmpty(RoomNumber))
+            {
+                if (RoomNumber.Equals(key)) { weight += _roomWeight * 10; }
+                else if (RoomNumber.Contains(key)) { weight += _roomWeight; }
+            }
+
+            if (!string.IsNullOrEmpty(Description))
+            {
+                if (Description.Equals(key)) { weight += _descriptionWeight * 10; }
+                else if (Description.Contains(key)) { weight += _descriptionWeight; }
+            }
+
+
+            CurrentWeight = weight;
+
         }
 
         public Guid Id { get; set; }
