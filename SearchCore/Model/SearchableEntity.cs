@@ -2,9 +2,18 @@
 {
     public abstract class SearchableEntity
     {
-        protected const int _matchFactor = 10;
-        internal int CurrentWeight { get; set; }
-        internal abstract void CalculateWeight(string key);       
+    }
+
+    public class SearchableEntity<T> : SearchableEntity where T : class
+    {
+        public T Data { get; set; }
 
     }
+
+    public interface IData 
+    {
+        int CurrentWeight { get; set; }
+        void CalculateWeight(string key); 
+    }
+            
 }

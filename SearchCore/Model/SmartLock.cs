@@ -1,11 +1,14 @@
-﻿namespace SearchCore.Model
+﻿using System.Drawing;
+using System.Xml.Linq;
+
+namespace SearchCore.Model
 {
     public enum LockType
     {
         Cylinder,
         SmartHandle
     }
-    public class SmartLock : SearchableEntity
+    public class SmartLock : IData
     {
         private const int _nameWeight = 10;
         private const int _typeWeight = 3;
@@ -13,7 +16,7 @@
         private const int _floorWeight = 6;
         private const int _roomWeight = 6;
         private const int _descriptionWeight = 6;
-        internal override void CalculateWeight(string key)
+        public void CalculateWeight(string key)
         {
             var weight = 0;
 
@@ -54,7 +57,6 @@
             CurrentWeight = weight;
 
         }
-
         public Guid Id { get; set; }
         public Guid BuildingId { get; set; }
         public LockType Type { get; set; }
@@ -63,5 +65,6 @@
         public string? Floor { get; set; }
         public string? RoomNumber { get; set; }
         public string? Description { get; set; }
+        public int CurrentWeight { get; set; }
     }
 }
