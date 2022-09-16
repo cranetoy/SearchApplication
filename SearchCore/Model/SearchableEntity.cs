@@ -1,5 +1,9 @@
 ﻿namespace SearchCore.Model
 {
+    public class SearchableEntities
+    {
+        public List<dynamic> Items { get; set; }
+    }
     public abstract class SearchableEntity
     {
     }

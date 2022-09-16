@@ -1,0 +1,35 @@
+﻿@model IEnumerable<SearchCore.Model.SearchableEntity>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <table>
+            <tr>
+                <th>CustomerID</th>
+                @*<th>Contact Name</th>
+                <th>Country</th>*@
+            </tr>
+            @foreach (SearchCore.Model.SearchableEntity customer in Model)
+            {
+                    <tr>
+                            <td>@customer</td>
+                        @*<td>@customer.ContactName</td>
+                        <td>@customer.Country</td>*@
+                    </tr>
+            }
+        </table>
+        <br />
+        @Html.ActionLink("Back", "Index", "Home")
+    </div>
+</body>
+</html>
