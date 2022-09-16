@@ -31,19 +31,19 @@ namespace SearchWebApplication.Controllers
                 list.Add(item);
                 //if (item is SearchableEntity<Building> si)
                 //{
-                //    list.Add(si.Data);
+                //    list.Add(si);
                 //}
                 //if (item is SearchableEntity<SmartLock> si1)
                 //{
-                //    list.Add(si1.Data);
+                //    list.Add(si1);
                 //}
                 //if (item is SearchableEntity<Group> si2)
                 //{
-                //    list.Add(si2.Data);
+                //    list.Add(si2);
                 //}
                 //if (item is SearchableEntity<Medium> si3)
                 //{
-                //    list.Add(si3.Data);
+                //    list.Add(si3);
                 //}
             }
             var teat = new SearchableEntities();

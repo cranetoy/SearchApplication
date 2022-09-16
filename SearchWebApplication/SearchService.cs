@@ -17,6 +17,12 @@ namespace SearchWebApplication
                 var url = uri + searchKey;
                 var resultString = await httpClient.GetStringAsync(url);
 
+            //    var obj = JsonConvert.DeserializeObject<SearchableEntities>(resultString,
+            //new JsonSerializerSettings
+            //{
+            //    TypeNameHandling = TypeNameHandling.Auto
+            //});
+
                 var result = JsonConvert.DeserializeObject<SearchableEntities>(resultString);
                 
                 return result;

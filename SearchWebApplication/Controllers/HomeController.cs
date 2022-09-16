@@ -21,38 +21,11 @@ namespace SearchWebApplication.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(string searchKey)
         {
-            return View("Results",
-            await _service.GetSearchResultAsync(searchKey)
-        );
-
-            //using (HttpClient client = new HttpClient())
-            //{
-            //    client.BaseAddress = new Uri(apiUrl);
-            //    client.DefaultRequestHeaders.Accept.Clear();
-            //    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-            //    HttpResponseMessage response = await client.GetAsync(apiUrl);
-            //    if (response.IsSuccessStatusCode)
-            //    {
-            //        var data = await response.Content.ReadAsStringAsync();
-            //        var table = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Data.DataTable>(data);
-
-            //    }
-
-
-            //}
-            return View();
+            var results = await _service.GetSearchResultAsync(searchKey);
+            return View("Results", results);            
 
         }
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        public ViewResult Search()
-        {
-            return View();
-        }
+      
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
