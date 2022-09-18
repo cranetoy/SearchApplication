@@ -11,10 +11,6 @@ namespace SearchApi.Controllers
     public class SearchController : ControllerBase
     {
         private readonly ILogger<SearchController> _logger;
-        private static readonly string[] Summaries = new[]
-       {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
 
         public SearchController(ILogger<SearchController> logger)
         {
@@ -22,10 +18,10 @@ namespace SearchApi.Controllers
         }
 
         [HttpGet(Name = "GetSearchResults")]
-        public async Task<IEnumerable<SearchableEntity>> Get(string searchKey)
+        public async Task<IEnumerable<SearchableEntityDTO>> Get(string searchKey)
         {
             var data = await GetDataAsync();
-            if(data == null) return new List<SearchableEntity>();
+            if(data == null) return new List<SearchableEntityDTO>();
 
             var search = new Search(data);
             var result = search.GetResults(searchKey);

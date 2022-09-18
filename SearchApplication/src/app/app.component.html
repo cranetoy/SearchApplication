@@ -1,0 +1,34 @@
+<h1 id="tableLabel">Search Entities</h1>
+
+
+<div class='row'>
+  <div class='col-md-2'>
+    Enter key word to search:
+  </div>
+  <div class="col-md-4">
+    <input type="text"
+           [(ngModel)]='searchString' />
+    <button class='btn btn-primary' (click)="getResults()">Search</button>
+
+  </div>
+</div>
+<div class='row'>
+
+  <table *ngIf="searchResults">
+    <thead>
+      <tr>
+        <h5> Results</h5>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let result of searchResults">
+        <p>{{ result.name }}
+
+        <br/>
+        <small>
+          {{ result.description }}
+        </small>
+        </p>
+      </tr>
+    </tbody>
+  </table>
