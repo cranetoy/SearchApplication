@@ -40,5 +40,6 @@ export class AppComponent {
 
 interface SearchResult {
   name: string;
+  entityType: string;
   description: string;
 }

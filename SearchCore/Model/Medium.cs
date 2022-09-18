@@ -1,4 +1,6 @@
-﻿namespace SearchCore.Model
+﻿using System.Text;
+
+namespace SearchCore.Model
 {
     public enum MediumType
     {
@@ -13,30 +15,34 @@
         private const int _ownerWeight = 10;
         private const int _sRWeight = 8;
         private const int _descriptionWeight = 6;
+
+
+        private const int _exactMatchFactor = 10;
+
         public void CalculateWeight(string key)
         {
             var weight = 0;
 
-            if (Type.ToString().Equals(key)) { weight += _typeWeight * 10; }
-            else if (Type.ToString().Contains(key)) { weight += _typeWeight; }
+            if (Type.ToString().Equals(key, StringComparison.OrdinalIgnoreCase)) { weight += _typeWeight * _exactMatchFactor; }
+            else if (Type.ToString().Contains(key, StringComparison.OrdinalIgnoreCase)) { weight += _typeWeight; }
 
             if (!string.IsNullOrEmpty(Owner))
             {
-                if (Owner.Equals(key)) { weight += _ownerWeight * 10; }
-                else if (Owner.Contains(key)) { weight += _ownerWeight; }
+                if (Owner.Equals(key, StringComparison.OrdinalIgnoreCase)) { weight += _ownerWeight * _exactMatchFactor; }
+                else if (Owner.Contains(key, StringComparison.OrdinalIgnoreCase)) { weight += _ownerWeight; }
             }
 
 
             if (!string.IsNullOrEmpty(SerialNumber))
             {
-                if (SerialNumber.Equals(key)) { weight += _sRWeight * 10; }
-                else if (SerialNumber.Contains(key)) { weight += _sRWeight; }
+                if (SerialNumber.Equals(key, StringComparison.OrdinalIgnoreCase)) { weight += _sRWeight * _exactMatchFactor; }
+                else if (SerialNumber.Contains(key, StringComparison.OrdinalIgnoreCase)) { weight += _sRWeight; }
             }
 
             if (!string.IsNullOrEmpty(Description))
             {
-                if (Description.Equals(key)) { weight += _descriptionWeight * 10; }
-                else if (Description.Contains(key)) { weight += _descriptionWeight; }
+                if (Description.Equals(key, StringComparison.OrdinalIgnoreCase)) { weight += _descriptionWeight * _exactMatchFactor; }
+                else if (Description.Contains(key, StringComparison.OrdinalIgnoreCase)) { weight += _descriptionWeight; }
             }
 
             CurrentWeight = weight;
@@ -44,7 +50,7 @@
 
         public string ToDescriptionSummary()
         {
-            return $"{SerialNumber ?? string.Empty} | {Type.ToString() ?? string.Empty} | {Description ?? string.Empty} | {GroupName ?? string.Empty}";
+            return $"SerialNumber - {SerialNumber ?? string.Empty} | Medium Type - {Type.ToString() ?? string.Empty} | Group - {GroupName ?? string.Empty} | Description - {Description ?? string.Empty} ";
         }
         public Guid Id { get; set; }
         public Guid GroupId { get; set; }

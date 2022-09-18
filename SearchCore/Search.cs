@@ -1,5 +1,4 @@
 ﻿using SearchCore.Model;
-using System.Collections.Generic;
 
 namespace SearchCore
 {
@@ -15,7 +14,6 @@ namespace SearchCore
         public IEnumerable<SearchableEntityDTO> GetResults(string searchKey)
         {
             var results = new Dictionary<SearchableEntity, int>();
-
             //Calculate weight of each Building for given SearchKey
             foreach (var entity in _dataSet.Buildings)
             {
@@ -53,7 +51,7 @@ namespace SearchCore
                 foreach (var smartLock in locksInBuilding)
                 {
                     smartLock.BuildingName = entity.Name;
-                    smartLock.CurrentWeight += (entity.NameMatchWeightInLock + entity.ShortcutMatchWeightInLock);
+                    smartLock.CurrentWeight += (entity.NameMatchWeightInLock + entity.ShortcutMatchWeightInLock + entity.DescriptionMatchWeightInLock);
                 }
             }
 
@@ -71,7 +69,7 @@ namespace SearchCore
                 foreach (var medium in mediumInGroup)
                 {
                     medium.GroupName = entity.Name; 
-                    medium.CurrentWeight += entity.NameMatchWeightInMedium;
+                    medium.CurrentWeight += (entity.NameMatchWeightInMedium + entity.DescriptionMatchWeightInMedium);
                 }
             }
 
@@ -107,25 +105,25 @@ namespace SearchCore
         {
             if (item is SearchableEntity<Building> building)
             {
-                return new SearchableEntityDTO(building.Data.Name ?? string.Empty,
+                return new SearchableEntityDTO("Building",  building.Data.Name ?? string.Empty, 
                     building.Data.ToDescriptionSummary());
             }
             else if (item is SearchableEntity<SmartLock> smartLock)
             {
-                return new SearchableEntityDTO(smartLock.Data.Name ?? string.Empty,
+                return new SearchableEntityDTO("SmartLock", smartLock.Data.Name ?? string.Empty,
                     smartLock.Data.ToDescriptionSummary());                
             }
             else if (item is SearchableEntity<Group> group)
             {
-                return new SearchableEntityDTO(group.Data.Name ?? string.Empty,
+                return new SearchableEntityDTO("Group", group.Data.Name ?? string.Empty,
                     group.Data.ToDescriptionSummary());
             }
             else if (item is SearchableEntity<Medium> medium)
             {
-                return new SearchableEntityDTO(medium.Data.Owner ?? string.Empty,
+                return new SearchableEntityDTO("Medium", medium.Data.Owner ?? string.Empty,
                     medium.Data.ToDescriptionSummary());
             }
-            else return new SearchableEntityDTO(string.Empty, string.Empty);
+            else return new SearchableEntityDTO(string.Empty, string.Empty, string.Empty);
         }
     }
 }

@@ -22,12 +22,13 @@
     </thead>
     <tbody>
       <tr *ngFor="let result of searchResults">
-        <p>{{ result.name }}
+        <p>
+          {{result.entityType}} : {{ result.name }}
 
-        <br/>
-        <small>
-          {{ result.description }}
-        </small>
+          <br />
+          <small>
+            {{ result.description }}
+          </small>
         </p>
       </tr>
     </tbody>
