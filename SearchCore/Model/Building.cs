@@ -2,7 +2,7 @@
 
 namespace SearchCore.Model
 {
-    public class Building : IData
+    public class Building : ISearchableData
     {
         private const int _shortcutWeight = 9;
         private const int _nameWeight = 9;
@@ -61,6 +61,11 @@ namespace SearchCore.Model
             }
 
             CurrentWeight = weight;
+        }
+
+        public string ToDescriptionSummary()
+        {
+            return $"{Shortcut ?? string.Empty} | {Description ?? string.Empty}";
         }
     }
 }

@@ -1,9 +1,5 @@
 ﻿namespace SearchCore.Model
 {
-    public class SearchableEntities
-    {
-        public List<dynamic> Items { get; set; }
-    }
     public abstract class SearchableEntity
     {
     }
@@ -14,10 +10,11 @@
 
     }
 
-    public interface IData 
+    public interface ISearchableData 
     {
         int CurrentWeight { get; set; }
-        void CalculateWeight(string key); 
+        void CalculateWeight(string key);
+        string ToDescriptionSummary();
     }
             
 }

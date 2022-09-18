@@ -2,7 +2,7 @@
 
 namespace SearchCore.Model
 {
-    public class Group : IData
+    public class Group : ISearchableData
     {
         private const int _nameWeight = 9;
         private const int _descriptionWeight = 5;
@@ -33,6 +33,11 @@ namespace SearchCore.Model
             }
 
             CurrentWeight = weight;
+        }
+
+        public string ToDescriptionSummary()
+        {
+            return Description ?? string.Empty;
         }
         internal int NameMatchWeightInMedium { get; set; }
         

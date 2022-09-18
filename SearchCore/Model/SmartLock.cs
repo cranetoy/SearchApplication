@@ -1,14 +1,11 @@
-﻿using System.Drawing;
-using System.Xml.Linq;
-
-namespace SearchCore.Model
+﻿namespace SearchCore.Model
 {
     public enum LockType
     {
         Cylinder,
         SmartHandle
     }
-    public class SmartLock : IData
+    public class SmartLock : ISearchableData
     {
         private const int _nameWeight = 10;
         private const int _typeWeight = 3;
@@ -57,6 +54,12 @@ namespace SearchCore.Model
             CurrentWeight = weight;
 
         }
+
+        public string ToDescriptionSummary()
+        {
+            return $"{SerialNumber ?? string.Empty} | {Floor ?? string.Empty} | {RoomNumber ?? string.Empty} | {Description ?? string.Empty} | {BuildingName ?? string.Empty}";
+        }
+
         public Guid Id { get; set; }
         public Guid BuildingId { get; set; }
         public LockType Type { get; set; }
@@ -66,5 +69,6 @@ namespace SearchCore.Model
         public string? RoomNumber { get; set; }
         public string? Description { get; set; }
         public int CurrentWeight { get; set; }
+        internal string? BuildingName { get; set; }
     }
 }

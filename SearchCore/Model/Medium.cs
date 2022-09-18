@@ -1,6 +1,4 @@
-﻿using System.Xml.Linq;
-
-namespace SearchCore.Model
+﻿namespace SearchCore.Model
 {
     public enum MediumType
     {
@@ -9,7 +7,7 @@ namespace SearchCore.Model
         TransponderWithCardInlay,
     }
 
-    public class Medium: IData
+    public class Medium: ISearchableData
     {
         private const int _typeWeight = 3;
         private const int _ownerWeight = 10;
@@ -43,6 +41,11 @@ namespace SearchCore.Model
 
             CurrentWeight = weight;
         }
+
+        public string ToDescriptionSummary()
+        {
+            return $"{SerialNumber ?? string.Empty} | {Type.ToString() ?? string.Empty} | {Description ?? string.Empty} | {GroupName ?? string.Empty}";
+        }
         public Guid Id { get; set; }
         public Guid GroupId { get; set; }
         public MediumType Type { get; set; }
@@ -50,5 +53,6 @@ namespace SearchCore.Model
         public string? SerialNumber { get; set; }
         public string? Description { get; set; }
         public int CurrentWeight { get; set; }
+        internal string? GroupName { get; set; }
     }
 }

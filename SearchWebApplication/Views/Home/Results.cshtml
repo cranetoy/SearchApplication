@@ -1,4 +1,4 @@
-﻿@model SearchCore.Model.SearchableEntities
+﻿@model IEnumerable<SearchCore.Model.SearchableEntityDTO>
 @{
     Layout = null;
 }
@@ -13,15 +13,21 @@
 <body>
     <div>
         <table>
-            <tr>
-                <th>CustomerID</th>
-                @*<th>Contact Name</th>
-                <th>Country</th>*@
-            </tr>
-            @foreach (var entity in Model.Items)
+            @foreach (var entity in Model)
             {
                     <tr>
-                                <td>@entity</td>
+                            <table>
+                        <tr >
+                            <p>
+                                @entity.Name <br/>
+                                    <small>
+
+                                    @entity.Description
+                                </small>
+                            </p>
+                        </tr>
+
+                    </table>
                         @*<td>@customer.ContactName</td>
                         <td>@customer.Country</td>*@
                     </tr>

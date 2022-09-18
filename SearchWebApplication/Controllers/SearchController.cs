@@ -17,39 +17,15 @@ namespace SearchWebApplication.Controllers
         }
 
         [HttpGet(Name = "GetSearchResults")]
-        public async Task<ActionResult<SearchableEntities>> Get(string searchKey)
+        public async Task<ActionResult<IEnumerable<SearchableEntityDTO>>> Get(string searchKey)
         {
             var data = await GetDataAsync();
             if (data == null) return new ObjectResult(string.Empty);
 
             var search = new Search(data);
-            var result = search.GetResults(searchKey);
-
-            var list = new List<dynamic>();
-            foreach (var item in result)
-            {
-                list.Add(item);
-                //if (item is SearchableEntity<Building> si)
-                //{
-                //    list.Add(si);
-                //}
-                //if (item is SearchableEntity<SmartLock> si1)
-                //{
-                //    list.Add(si1);
-                //}
-                //if (item is SearchableEntity<Group> si2)
-                //{
-                //    list.Add(si2);
-                //}
-                //if (item is SearchableEntity<Medium> si3)
-                //{
-                //    list.Add(si3);
-                //}
-            }
-            var teat = new SearchableEntities();
-            teat.Items = list;
+            var result = search.GetResults(searchKey);           
             
-            return new ObjectResult(teat);
+            return new ObjectResult(result);
         }
 
         private async Task<SearchDataSet> GetDataAsync()
