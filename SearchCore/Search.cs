@@ -4,44 +4,40 @@ namespace SearchCore
 {
     public class Search
     {
-        public Search(SearchDataSet dataSet)
-        {
-            _dataSet = dataSet;
-        }
 
-        private SearchDataSet _dataSet;
-
-        public IEnumerable<SearchableEntityDTO> GetResults(string searchKey)
+        public IEnumerable<SearchableEntityDTO> GetSearchResults(string searchKey, SearchDataSet dataSet)
         {
+            if(dataSet == null || string.IsNullOrEmpty(searchKey)) return new List<SearchableEntityDTO>();
+
             var results = new Dictionary<SearchableEntity, int>();
             //Calculate weight of each Building for given SearchKey
-            foreach (var entity in _dataSet.Buildings)
+            foreach (var entity in dataSet.Buildings)
             {
                 entity.CalculateWeight(searchKey);
             }
             //Calculate weight of each SmartLock for given SearchKey
-            foreach (var entity in _dataSet.Locks)
+            foreach (var entity in dataSet.Locks)
             {
                 entity.CalculateWeight(searchKey);
             }
 
             //Calculate weight of each Group for given SearchKey
-            foreach (var entity in _dataSet.Groups)
+            foreach (var entity in dataSet.Groups)
             {
                 entity.CalculateWeight(searchKey);
             }
 
             //Calculate weight of each Medium for given SearchKey
-            foreach (var entity in _dataSet.Media)
+            foreach (var entity in dataSet.Media)
             {
                 entity.CalculateWeight(searchKey);
             }
 
 
             //Update current weight of each Lock for transitive fields
-            foreach (var entity in _dataSet.Buildings.Where(b => b.CurrentWeight > 0))
+            foreach (var entity in dataSet.Buildings.Where(b => b.CurrentWeight > 0))
             {
-                var locksInBuilding = _dataSet.Locks.Where(x => x.BuildingId.Equals(entity.Id)).ToList();
+                var locksInBuilding = dataSet.Locks.Where(x => x.BuildingId.Equals(entity.Id)).ToList();
 
                 // Add Building with current weight larger than zero to result
                 var key = new SearchableEntity<Building>();
@@ -57,9 +53,9 @@ namespace SearchCore
 
 
             //Update current weight of each Medium for transitive fields
-            foreach (var entity in _dataSet.Groups.Where(b => b.CurrentWeight > 0))
+            foreach (var entity in dataSet.Groups.Where(b => b.CurrentWeight > 0))
             {
-                var mediumInGroup = _dataSet.Media.Where(x => x.GroupId.Equals(entity.Id)).ToList();
+                var mediumInGroup = dataSet.Media.Where(x => x.GroupId.Equals(entity.Id)).ToList();
 
                 // Add Group with current weight larger than zero to result
                 var key = new SearchableEntity<Group>();
@@ -74,7 +70,7 @@ namespace SearchCore
             }
 
             // Add SmartLock with current weight larger than zero to result 
-            foreach (var entity in _dataSet.Locks.Where(b => b.CurrentWeight > 0))
+            foreach (var entity in dataSet.Locks.Where(b => b.CurrentWeight > 0))
             {
                 var key = new SearchableEntity<SmartLock>();
                 key.Data = entity;
@@ -82,7 +78,7 @@ namespace SearchCore
             }
 
             // Add Medium with current weight larger than zero to result
-            foreach (var entity in _dataSet.Media.Where(b => b.CurrentWeight > 0))
+            foreach (var entity in dataSet.Media.Where(b => b.CurrentWeight > 0))
             {
                 var key = new SearchableEntity<Medium>();
                 key.Data = entity;
@@ -98,8 +94,6 @@ namespace SearchCore
 
             return sortedResult;
         }
-
-        
 
         private SearchableEntityDTO GetSearchableEntityDTO(SearchableEntity item)
         {

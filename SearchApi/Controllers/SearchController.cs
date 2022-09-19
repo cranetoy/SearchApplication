@@ -11,21 +11,23 @@ namespace SearchApi.Controllers
     public class SearchController : ControllerBase
     {
         private readonly ILogger<SearchController> _logger;
+        private Search _search;
 
         public SearchController(ILogger<SearchController> logger)
         {
             _logger = logger;
+            _search = new Search();
         }
 
         [HttpGet(Name = "GetSearchResults")]
         public async Task<IEnumerable<SearchableEntityDTO>> Get(string searchKey)
         {
-            var data = await GetDataAsync();
-            if(data == null) return new List<SearchableEntityDTO>();
+            if(string.IsNullOrEmpty(searchKey)) return Enumerable.Empty<SearchableEntityDTO>();
 
-            var search = new Search(data);
-            var result = search.GetResults(searchKey);
-            return result;
+            var t = Task.Run(() => GetDataAsync())
+                .ContinueWith(r => _search.GetSearchResults(searchKey, r.Result));
+            
+            return t.Result;
             
         }
 
